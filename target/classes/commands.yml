@@ -1,0 +1,18 @@
+#THIS WILL BE DELETED
+#current catalog of commands
+
+/fwc create arena <arena name>
+/fwc delete arena <name>
+/fwc prepare <arena name>
+/fwc setkit <name>
+/fwc requiredFactions <arena name> <int>
+/fwc playersPerFaction <name> <int>
+/fwc setspawn <name> <int>
+
+
+/fw start <arena name> <seconds>
+/fw stop <name>
+/fw list
+/fw join <arena name>
+/fw spectate <arena name>
+/fw leave <name>

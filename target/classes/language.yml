@@ -1,0 +1,83 @@
+# Faction Wars Language Manipulation
+prefix: '&8[&3FactionWars&8] '
+
+#messageLanguage
+arena_list: "&3Arenas: &7"
+created_already: '&cThere is already an arena with this name!'
+arena_delete_live: "&cThat arena is active! You can't delete it!"
+arena_delete_absent: "&cThat arena doesn't exist!"
+factionless: "&cYou must be in a faction to join a Faction War!"
+#Correct something related to arenas
+correct_arena_creation: "&cInput error! Try /fwc create arena <arena name>"
+correct_arena_name_length: "&cArena names can only be one word long!"
+correct_required_factions: "&cInput error! Try /fwc <arena name> requiredFactions <number>"
+correct_players_per_faction: "&cInput error! Try /fwc <arena name> playersPerFaction <number>"
+
+#messageLanguageArena
+arena_create: "&cYou have created &7%arena%&c!"
+arena_start_recruiting: "&cYou have opened up &7%arena%&c for players to join!"
+arena_delete: "&cYou have deleted &7%arena%&c!"
+arena_delete_active: "&cYou must wait until &7%arena%&c isn't in use!"
+
+arena_join: "&cYou have joined &7%arena%&c!"
+arena_not_recruiting: "&c&7%arena%&c is not available to join!"
+arena_spectate: "&cWelcome to the spectator zone for &7%arena%&c!"
+
+arena_set_kit: "&cYou set the kit for &7%arena%&c!"
+correct_arena_not_exist: "&cThere is no arena named &7%arena%&c!"
+arena_default_kits_off: "&7%arena%&c has Default Kits toggled off!"
+arena_default_kits_true: "&7%arena%&c will now use default kits!"
+arena_default_kits_false: "&7%arena%&c will now let fighters bring their own gear!"
+arena_inthering_true: "&cFighters will now lose if they exit &7%arena%&c!"
+arena_inthering_false: "&cFighters can now exit &7%arena%&c without losing!"
+
+#messageLanguageArenaInt
+arena_required_factions: "&7%arena%&c now requires &5%num%&c factions to begin!"
+arena_players_per: "&7%arena%&c now requires &5%num%&c players per faction to begin!"
+correct_arena_spawnnumber: "&7%arena%&c supports &5%num%&c factions. Input a number between &51&c and &5%num%&c!"
+arena_set_spawn: "You set Spawn &5%num%&c for &7%arena%&c!"
+
+#broadcastCountdown
+countdown_begin: "&3&lFactionWars &7countdown has begun!"
+countdown: "&3&lFactionWars &7will begin in &3%time%&7!"
+countdown_soon: "&3&lFactionWars &7will begin in &5%time%&7!"
+countdown_very_soon: "&3&lFactionWars &7will begin in &4%time%&7!"
+countdown_cancel: "&3&lFactionWars &7Event has been cancelled!"
+
+
+creation_already: '&cYou are already in creation mode!'
+creation_not: '&cYou are not in creation mode!'
+arena_leave: '&7You have left the arena!'
+arena_list: '&3Arenas: &7'
+arena_cancelled: '&7Arena cancelled, there must be at least &3%min% &7players!'
+arena_already_start: '&cThis arena has already started!'
+arena_not_active: '&cThere is no active arena!'
+arena_already_in: '&cYou are already in an arena!'
+arena_not_in: '&cYou are not in an arena!'
+arena_already_active: '&cThere is already an active arena!'
+arena_already_exists: '&cThis arena already exists!'
+arena_no_exist: '&cArena does not exist!'
+arena_delete: '&cYou have deleted &7%arena%&c!'
+arena_delete_active: '&cYou cannot delete an active arena!'
+round_first: '&7The first round will start in &3%time% &7seconds!'
+round_next: '&7The next round will start in &3%time% &7seconds!'
+round_start: '&3%f1% &7VS &3%f2%&7!'
+round_winner: '&3%f% &7has won the round!'
+player_factionless: '&cYou must be in a faction to join!'
+player_not_highest: '&cYou are not the highest faction member online!'
+event_winner: '&3%f% &7has won the FactionWars event!'
+teleporting_all: '&7Teleporting everyone in &3%time% &7seconds!'
+setkit: '&7You have set the kit for arena &3%arena%&7!'
+setspawn: '&7You have set spawn point &3%point% &7for arena &3%arena%&7!'
+finalization: '&7Finalization completed! Arena registered!'
+error_kit: '&cYou must set a kit!'
+error_setspawn: '&cYou must set spawn for %point%'
+broadcast_begun: '&3&lFactionWars &7countdown has begun!'
+broadcast_start: '&3&lFactionWars &7has started!'
+broadcast_stop: '&3&lFactionWars &7Event has been cancelled!'
+broadcast_countdown: '&3&lFactionWars &7will begin in &3%time%&7!'
+broadcast_mode: '&3&lFactionWars &c! &7Kit mode is &c%mode% &c!'
+no_permission: '&cYou do not have permission to run this command!'
+reward: '&6You earned your winner rewards!'
+region_deny: '&cYou cannot enter the arena as a spectator!'
+no_pearls: '&cYou cannot use ender pearls in an arena!'

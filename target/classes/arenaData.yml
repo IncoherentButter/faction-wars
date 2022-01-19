@@ -1,0 +1,31 @@
+arena_names:
+  countdown-seconds:
+    - 10
+  game-state:
+    - GameState.DORMANT
+  required-factions:
+    - 4
+  players-per-faction:
+    - 3
+  is-default-kit:
+    - true
+  is-in-the-ring:
+    - false
+  spectator-spawn:
+    world:
+      - world
+    x:
+      - 10
+    y:
+      - 15
+    z:
+      - 20
+  spawns:
+    1:
+      - world
+    2:
+      - loc
+    3:
+      - loc
+    4:
+

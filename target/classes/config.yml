@@ -1,0 +1,12 @@
+required-players: 2
+countdown-seconds: 60
+arenas:
+  test:
+    world: 'world'
+    x: 169.5
+    y: 71.5
+    z: -3.5
+    yaw: -180
+    pitch: 0
+    required-factions: 2
+
