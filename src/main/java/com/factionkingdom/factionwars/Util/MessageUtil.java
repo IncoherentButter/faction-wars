@@ -36,7 +36,8 @@ public class MessageUtil {
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
     }
 
-    public void messageArenaList(CommandSender p){
+    public void messageArenaList(CommandSender p, FactionWars fw){
+        arenaConfig = fw.getArenaConfig();
         List<String> arenaNames = arenaConfig.getStringList("arena_names");
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("&e&lFactionWars Arenas\n");

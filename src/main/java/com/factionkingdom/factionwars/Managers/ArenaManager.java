@@ -148,7 +148,7 @@ public class ArenaManager {
          */
         System.out.println("ArenaManager.addArena(): ADDED ARENA " + arenaName + " to arenas and arenaNames");
         arenaData = fw.getArenaDataFile();
-        arenaConfig = YamlConfiguration.loadConfiguration(arenaData);
+        arenaConfig = fw.getArenaConfig();
         if (arenaConfig.contains("arena_names." + arenaName)){
             msgUtil.messageLanguage(p, "created_already");
         } else{

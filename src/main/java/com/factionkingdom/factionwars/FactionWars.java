@@ -45,7 +45,6 @@ public final class FactionWars extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getConfig().options().copyDefaults();
         saveDefaultConfig();
         ConfigManager.setupConfig(this);
 

@@ -5,6 +5,7 @@ import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.Instances.Arena;
 import com.factionkingdom.factionwars.Managers.ArenaManager;
 import com.factionkingdom.factionwars.Util.MessageUtil;
+import com.factionkingdom.factionwars.Util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,7 +51,7 @@ public class FactionWarsCommand implements CommandExecutor {
                 //blank /fw returns help
                 messageUtil.fwHelp(p);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("list")){
-                messageUtil.messageArenaList(p);
+                messageUtil.messageArenaList(p, fw);
 //                for (String name : arenaManager.getArenaNames()){
 //                    stringBuilder.append("&3" + name + "\n");
 //                }

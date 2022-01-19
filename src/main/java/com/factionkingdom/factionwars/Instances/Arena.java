@@ -66,7 +66,7 @@ public class Arena {
     public Arena(FactionWars fw, String arenaName){
         this.fw = fw;
 
-        arenaData = new File(fw.getDataFolder(), "arenaData.yml");
+        arenaData = fw.getArenaDataFile();
 
         this.arenaName = arenaName;
         setRequiredFactions(2);
@@ -88,7 +88,7 @@ public class Arena {
     }
 
     public void setupConfig(){
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+        arenaConfig = fw.getArenaConfig();
 
         arenaConfig.set("arena_names." + arenaName + ".countdown-seconds", this.countdownSeconds);
         arenaConfig.set("arena_names." + arenaName + ".game-state", this.state.getDisplay());
@@ -102,12 +102,7 @@ public class Arena {
         arenaConfig.set("arena_names." + arenaName + ".spectator-spawn.z", "");
         arenaConfig.set("arena_names." + arenaName + ".spawns", "");
         System.out.println("Arena.setupConfig(): set up config for arena " + arenaName);
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void createIterator(){
         for (int i = 1; i < requiredFactions + 1; i ++) numTeams.add(i);
@@ -207,7 +202,9 @@ public class Arena {
     public void setCountdownSeconds(int sec){
         this.countdownSeconds = sec;
         System.out.println("Arena.setCdSeconds:" + arenaName + " WILL COUNTDOWN FOR " + String.valueOf(sec) + " SECONDS");
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+
+        arenaConfig = fw.getArenaConfig();
+        fw.saveArenaConfig(arenaConfig, arenaData);
 
 //        //arenaConfig.set("arena_names." + arenaName + ".countdown-seconds", countdownSeconds);
 //        try {
@@ -220,15 +217,10 @@ public class Arena {
     }
     public void setState(GameState state){
         this.state = state;
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+        arenaConfig = fw.getArenaConfig();
 
         arenaConfig.set("arena_names." + arenaName + ".game-state", state);
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setSpectatorSpawn(Location loc){
         this.spectatorSpawn = loc;
@@ -257,16 +249,11 @@ public class Arena {
     public void setPlayersPerFaction(int playersPerFaction){
         this.playersPerFaction = playersPerFaction;
 
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+        arenaConfig = fw.getArenaConfig();
 
         arenaConfig.set("arena_names." + arenaName + ".players-per-faction", playersPerFaction);
 
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setFactionSpawn(int factionId, Location factionSpawn){
         arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
@@ -285,43 +272,28 @@ public class Arena {
     public void setRequiredFactions(int num){
         requiredFactions = num;
 
-        arenaConfig = YamlConfiguration.loadConfiguration(arenaData);
+        arenaConfig = fw.getArenaConfig();
 
         arenaConfig.set("arena_names." + arenaName + ".required-factions", num);
 
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setDefaultKit(boolean isKit){
         this.defaultKit = isKit;
 
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+        arenaConfig = fw.getArenaConfig();
 
         arenaConfig.set("arena_names." + arenaName + ".is-default-kit", isKit);
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setInTheRing(boolean inTheRing){
         this.inTheRing = inTheRing;
 
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+        arenaConfig = fw.getArenaConfig();
 
         arenaConfig.set("arena_names." + arenaName + ".is-in-the-ring", inTheRing);
 
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+        fw.saveArenaConfig(arenaConfig, arenaData);
     }
 
 
