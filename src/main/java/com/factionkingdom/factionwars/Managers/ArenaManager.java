@@ -16,6 +16,8 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionType;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -69,9 +71,15 @@ public class ArenaManager {
         String list = stringBuilder.toString();
         System.out.println("Arena Mananger list: " + list);
 
-        for (String str: config.getConfigurationSection("arenas.").getKeys(false)){
-            arenas.add(new Arena(fw, str));
-        }
+
+//        arenaConfig.createSection("arena_names.other_arena_names");
+//        arenaConfig.set(arena_names.other_arena_names);
+
+        fw.saveArenaConfig(arenaConfig, arenaData);
+
+//        for (String str: config.getConfigurationSection("arenas.").getKeys(false)){
+//            arenas.add(new Arena(fw, str));
+//        }
 
         System.out.println("ArenaManager.constructor: ran for (String str: config.getConfigurationSection(\"arenas.\").getKeys(false)){\n" +
                 "            arenas.add(new Arena(fw, str));\n" +
@@ -153,27 +161,46 @@ public class ArenaManager {
             msgUtil.messageLanguage(p, "created_already");
         } else{
             System.out.println("ArenaManager.addArena(): input arena not in config, adding to config");
-
-            Arena newArena = new Arena(fw, arenaName);
-            System.out.println("ArenaManager.addArena(): initialized new arena");
-            arenas.add(newArena);
-            System.out.println("ArenaManager.addArena(): added new arena to ArenaManager.arenas, List<Arena> = " + arenas);
-
-            //If arenaName hasn't been added yet, add it to list
-            arenaNames = arenaConfig.getStringList("arena_names");
-            System.out.println("ArenaManager.addArena(): got arenaConfig list of arenas: = " + arenaNames);
-            arenaNames.add(arenaName);
-            System.out.println("ArenaManager.addArena(): added new arena to arenaNames: " + arenaNames);
-//            fw.setArenaConfig(arenaConfig, arenaData);
-            //overwrite the config arena name list
-            arenaConfig.set("arena_names", arenaNames);
-
-            fw.saveArenaConfig(arenaConfig, arenaData);
-
-            System.out.println("ArenaManager.addArena(): looping through all the arena names currently in config");
+            System.out.println("ArenaManager.addArena(): beofre initializing new arena, here is config:");
             for (String name : arenaConfig.getStringList("arena_names")){
                 System.out.println("***" + name + "***");
             }
+            System.out.println("-------------");
+
+            /*
+            Identified arena initialization as the point at which our config is overwriting old arenas for new ones
+             */
+            Arena newArena = new Arena(fw, arenaName);
+
+            System.out.println("-------------");
+            System.out.println("ArenaManager.addArena(): after initializing new arena, here is config:");
+            for (String name : arenaConfig.getStringList("arena_names")){
+                System.out.println("***" + name + "***");
+            }
+//            System.out.println("-------------");
+            arenas.add(newArena);
+//            System.out.println("ArenaManager.addArena(): added new arena to ArenaManager.arenas, List<Arena> = " + arenas);
+//            System.out.println("ArenaManager.addArena(): after adding new arena, here is config");
+//            for (String name : arenaConfig.getStringList("arena_names")){
+//                System.out.println("***" + name + "***");
+////            }
+//            System.out.println("-------------");
+            //If arenaName hasn't been added yet, add it to list
+
+//            System.out.println("ArenaManager.addArena(): got arenaConfig list of arenas: = " + arenaNames);
+            arenaNames.add(arenaName);
+//            System.out.println("ArenaManager.addArena(): added new arena to arenaNames: " + arenaNames);
+//            fw.setArenaConfig(arenaConfig, arenaData);
+            //overwrite the config arena name list
+//            arenaConfig.set("arena_names", arenaNames);
+
+            fw.saveArenaConfig(arenaConfig, arenaData);
+
+//            System.out.println("ArenaManager.addArena(): looping through all the arena names currently in config");
+//            for (String name : arenaConfig.getStringList("arena_names")){
+//                System.out.println("***" + name + "***");
+//            }
+//            System.out.println("-------------");
 
             //create the new arena and add it to Arena List
         }

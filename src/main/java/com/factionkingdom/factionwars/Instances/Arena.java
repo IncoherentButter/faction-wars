@@ -10,6 +10,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -67,13 +68,25 @@ public class Arena {
         this.fw = fw;
 
         arenaData = fw.getArenaDataFile();
+        arenaConfig = fw.getArenaConfig();
+
+
 
         this.arenaName = arenaName;
+
         setRequiredFactions(2);
+
+
         setPlayersPerFaction(2);
+
+
         setCountdownSeconds(180);
 
+
+
+
         this.countdown = new Countdown(fw, this);
+
 
         createIterator();
 
@@ -81,26 +94,48 @@ public class Arena {
         Default settings
          */
         setState(GameState.DORMANT); //default to DORMANT
+
+
         setDefaultKit(true);
+
         setInTheRing(false);
 
+
         setupConfig();
+
     }
 
     public void setupConfig(){
         arenaConfig = fw.getArenaConfig();
 
-        arenaConfig.set("arena_names." + arenaName + ".countdown-seconds", this.countdownSeconds);
-        arenaConfig.set("arena_names." + arenaName + ".game-state", this.state.getDisplay());
-        arenaConfig.set("arena_names." + arenaName + ".required-factions", this.requiredFactions);
-        arenaConfig.set("arena_names." + arenaName + ".players-per-faction", this.playersPerFaction);
-        arenaConfig.set("arena_names." + arenaName + ".is-defualt-kit", this.defaultKit);
-        arenaConfig.set("arena_names." + arenaName + ".is-in-the-ring", this.inTheRing);
-        arenaConfig.set("arena_names." + arenaName + ".spectator-spawn.world", "");
-        arenaConfig.set("arena_names." + arenaName + ".spectator-spawn.x", "");
-        arenaConfig.set("arena_names." + arenaName + ".spectator-spawn.y", "");
-        arenaConfig.set("arena_names." + arenaName + ".spectator-spawn.z", "");
-        arenaConfig.set("arena_names." + arenaName + ".spawns", "");
+//        ConfigurationSection subSection = arenaConfig.createSection("arena_names. " + arenaName);
+//        subSection.set("", "");
+
+        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
+        section.createSection("countdown-seconds");
+        section.createSection("game-state");
+        section.createSection("required-factions");
+        section.createSection("players-per-faction");
+        section.createSection("default-kit");
+        section.createSection("in-the-ring");
+        section.createSection("spectator-spawn.world");
+        section.createSection("spectator-spawn.x");
+        section.createSection("spectator-spawn.y");
+        section.createSection("spectator-spawn.z");
+        section.createSection("spawns");
+
+        section.set("countdown-seconds", this.countdownSeconds);
+        section.set("game-state", this.state.getDisplay());
+        section.set("required-factions", this.requiredFactions);
+        section.set("players-per-faction", this.playersPerFaction);
+        section.set("default-kit", this.defaultKit);
+        section.set("in-the-ring", this.inTheRing);
+        section.set("spectator-spawn.world", "unset");
+        section.set("spectator-spawn.x", "unset");
+        section.set("spectator-spawn.y", "unset");
+        section.set("spectator-spawn.z", "unset");
+        section.set("spawns", "");
+
         System.out.println("Arena.setupConfig(): set up config for arena " + arenaName);
         fw.saveArenaConfig(arenaConfig, arenaData);
     }
@@ -201,10 +236,10 @@ public class Arena {
 
     public void setCountdownSeconds(int sec){
         this.countdownSeconds = sec;
-        System.out.println("Arena.setCdSeconds:" + arenaName + " WILL COUNTDOWN FOR " + String.valueOf(sec) + " SECONDS");
-
-        arenaConfig = fw.getArenaConfig();
-        fw.saveArenaConfig(arenaConfig, arenaData);
+//        System.out.println("Arena.setCdSeconds:" + arenaName + " WILL COUNTDOWN FOR " + String.valueOf(sec) + " SECONDS");
+//
+//        arenaConfig = fw.getArenaConfig();
+//        fw.saveArenaConfig(arenaConfig, arenaData);
 
 //        //arenaConfig.set("arena_names." + arenaName + ".countdown-seconds", countdownSeconds);
 //        try {
@@ -217,23 +252,23 @@ public class Arena {
     }
     public void setState(GameState state){
         this.state = state;
-        arenaConfig = fw.getArenaConfig();
-
-        arenaConfig.set("arena_names." + arenaName + ".game-state", state);
-        fw.saveArenaConfig(arenaConfig, arenaData);
+//        arenaConfig = fw.getArenaConfig();
+//
+//        arenaConfig.set("arena_names." + arenaName + ".game-state", state);
+//        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setSpectatorSpawn(Location loc){
         this.spectatorSpawn = loc;
-        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
-
-        arenaConfig.set("arena_names." + arenaName + ".spectator-spawn", loc);
-
-        try {
-            arenaConfig.save(arenaData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+//        arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
+//
+//        arenaConfig.set("arena_names." + arenaName + ".spectator-spawn", loc);
+//
+//        try {
+//            arenaConfig.save(arenaData);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.out.println(e);
+//        }
     }
     public void setKit(Player p){
         /**
@@ -249,11 +284,11 @@ public class Arena {
     public void setPlayersPerFaction(int playersPerFaction){
         this.playersPerFaction = playersPerFaction;
 
-        arenaConfig = fw.getArenaConfig();
-
-        arenaConfig.set("arena_names." + arenaName + ".players-per-faction", playersPerFaction);
-
-        fw.saveArenaConfig(arenaConfig, arenaData);
+//        arenaConfig = fw.getArenaConfig();
+//
+//        arenaConfig.set("arena_names." + arenaName + ".players-per-faction", playersPerFaction);
+//
+//        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setFactionSpawn(int factionId, Location factionSpawn){
         arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
@@ -272,28 +307,33 @@ public class Arena {
     public void setRequiredFactions(int num){
         requiredFactions = num;
 
-        arenaConfig = fw.getArenaConfig();
-
-        arenaConfig.set("arena_names." + arenaName + ".required-factions", num);
-
-        fw.saveArenaConfig(arenaConfig, arenaData);
+//        arenaConfig = fw.getArenaConfig();
+//        System.out.println("~~~setRequiredFactions():");
+//        for (String name : arenaConfig.getStringList("arena_names")){
+//            System.out.println("***" + name + "***");
+//        }
+//        System.out.println("-------------");
+//
+//        arenaConfig.set("arena_names." + arenaName + ".required-factions", num);
+//
+//        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setDefaultKit(boolean isKit){
         this.defaultKit = isKit;
 
-        arenaConfig = fw.getArenaConfig();
-
-        arenaConfig.set("arena_names." + arenaName + ".is-default-kit", isKit);
-        fw.saveArenaConfig(arenaConfig, arenaData);
+//        arenaConfig = fw.getArenaConfig();
+//
+//        arenaConfig.set("arena_names." + arenaName + ".is-default-kit", isKit);
+//        fw.saveArenaConfig(arenaConfig, arenaData);
     }
     public void setInTheRing(boolean inTheRing){
         this.inTheRing = inTheRing;
 
-        arenaConfig = fw.getArenaConfig();
-
-        arenaConfig.set("arena_names." + arenaName + ".is-in-the-ring", inTheRing);
-
-        fw.saveArenaConfig(arenaConfig, arenaData);
+//        arenaConfig = fw.getArenaConfig();
+//
+//        arenaConfig.set("arena_names." + arenaName + ".is-in-the-ring", inTheRing);
+//
+//        fw.saveArenaConfig(arenaConfig, arenaData);
     }
 
 
