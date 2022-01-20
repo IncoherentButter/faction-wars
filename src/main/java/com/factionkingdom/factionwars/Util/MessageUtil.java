@@ -4,11 +4,13 @@ import com.factionkingdom.factionwars.FactionWars;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.util.List;
+import java.util.Set;
 
 public class MessageUtil {
 
@@ -38,13 +40,14 @@ public class MessageUtil {
 
     public void messageArenaList(CommandSender p, FactionWars fw){
         arenaConfig = fw.getArenaConfig();
-        List<String> arenaNames = arenaConfig.getStringList("arena_names");
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("&e&lFactionWars Arenas\n");
         stringBuilder.append("&7----------------------\n");
         System.out.println("MessageUtil.messageArenaList(): list of arenas in config");
-        if (!arenaNames.isEmpty()){
-            for (String name : arenaNames){
+        Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
+        if (!arenaNamesInConfig.isEmpty()){
+            for (String name : arenaNamesInConfig){
                 stringBuilder.append(name).append("\n");
                 System.out.println("^^^" + name + "^^^");
             }
