@@ -52,22 +52,15 @@ public class FactionWarsCommand implements CommandExecutor {
                 messageUtil.fwHelp(p);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("list")){
                 messageUtil.messageArenaList(p, fw);
-//                for (String name : arenaManager.getArenaNames()){
-//                    stringBuilder.append("&3" + name + "\n");
-//                }
-//                stringBuilder.append("&9----------------\n");
-////                for (String name:  arenaConfig.getConfigurationSection("arenas_names.").getKeys(false)){
-////                    stringBuilder.append("&3" + name + "\n");
-////                }
 
-                StringBuilder stringBuilder = new StringBuilder();
-                System.out.println("FW.list(): config list of names in FWCommand:");
-                for (String name: arenaConfig.getStringList("arena_names")){
-                    stringBuilder.append("&3" + name + "\n");
-                    System.out.println("$$$" + name + "$$$");
-                }
-                String list = stringBuilder.toString();
-                messageUtil.message(p, list);
+//                StringBuilder stringBuilder = new StringBuilder();
+//                System.out.println("FW.list(): config list of names in FWCommand:");
+//                for (String name: arenaConfig.getStringList("arena_names")){
+//                    stringBuilder.append("&3" + name + "\n");
+//                    System.out.println("$$$" + name + "$$$");
+//                }
+//                String list = stringBuilder.toString();
+//                messageUtil.message(p, list);
 
             } else if (args.length == 3 && args[0].equalsIgnoreCase("start")){
                 String arenaName = args[1];

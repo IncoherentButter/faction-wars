@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -84,9 +85,7 @@ public class FactionWarsCreateCommand implements CommandExecutor {
                     //Define it as a WG region
                     //arenaManager.define(p, args[1]);
                     //Add to the arena list
-                    System.out.println("FWC.create(): started the command");
                     arenaManager.addArena(p, args[1]);
-                    System.out.println("FWC.create(): called arenaManager.addArena(" + args[1] + ")");
                     messageUtil.messageLanguageArena(p, "arena_create", args[1]);
                     messageUtil.messageUsageHelp(p, "creation", args[1]);
                 }
@@ -130,18 +129,11 @@ public class FactionWarsCreateCommand implements CommandExecutor {
                 } catch (NumberFormatException x) {
                     messageUtil.messageLanguage(p, "correct_players_per_faction");
                 }
-            } else if (args.length == 3 && args[0].equalsIgnoreCase("delete") && args[1].equalsIgnoreCase("arena")){
-                String arenaName = args[2];
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("delete")){
+                String arenaName = args[1];
                 Arena arena = safelyGetArena(arenaName, p);
                 if (arena != null) {
-                    System.out.println(arena.getState());
-                    if (arena.getState() == GameState.DORMANT){
-                        arenaManager.undefine(p, arenaName);
-                        arenaManager.getArenas().remove(arena);
-                    } else{
-                        messageUtil.messageLanguageArena(p, "arena_delete_active", arenaName);
-                    }
-
+                    arenaManager.removeArena(p, arena);
                 }
             } else if (args.length == 3 && args[0].equalsIgnoreCase("setspawn")){
                 /**

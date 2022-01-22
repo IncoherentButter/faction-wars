@@ -21,11 +21,13 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class ArenaManager {
@@ -62,30 +64,21 @@ public class ArenaManager {
         msgUtil = fw.getMessageUtil();
 
 
-        StringBuilder stringBuilder = new StringBuilder();
-        System.out.println("ArenaManager: config list of names in ArenaManager:");
-        for (String name: arenaConfig.getStringList("arena_names")){
-            stringBuilder.append("&3" + name + "\n");
-            System.out.println("$$$" + name + "$$$");
-        }
-        String list = stringBuilder.toString();
-        System.out.println("Arena Mananger list: " + list);
-
-
-//        arenaConfig.createSection("arena_names.other_arena_names");
-//        arenaConfig.set(arena_names.other_arena_names);
-
         fw.saveArenaConfig(arenaConfig, arenaData);
+        loadConfig();
 
-//        for (String str: config.getConfigurationSection("arenas.").getKeys(false)){
-//            arenas.add(new Arena(fw, str));
-//        }
-
-        System.out.println("ArenaManager.constructor: ran for (String str: config.getConfigurationSection(\"arenas.\").getKeys(false)){\n" +
-                "            arenas.add(new Arena(fw, str));\n" +
-                "        }");
     }
 
+    public void loadConfig(){
+        Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
+        if (!arenaNamesInConfig.isEmpty()){
+            for (String arenaName: arenaNamesInConfig){
+                arenaNames.add(arenaName);
+                Arena arena = new Arena(fw, arenaName);
+                arenas.add(arena);
+            }
+        }
+    }
     public void define(Player p, String name){
         /** Defines the parameters for the arena.
          * Necessary parameters:
@@ -115,7 +108,6 @@ public class ArenaManager {
 //            this.messageUtil.messageLanguage((CommandSender)player, "arena_already_exists");
 //        }
     }
-
     public void undefine(Player p, String name){
         arenaConfig = YamlConfiguration.loadConfiguration(this.arenaData);
         arenaNames = arenaConfig.getStringList("arena_names");
@@ -147,6 +139,8 @@ public class ArenaManager {
         }
     }
 
+
+
     public List<Arena> getArenas(){return arenas;}
     public List<String> getArenaNames(){return arenaNames;}
 
@@ -154,55 +148,60 @@ public class ArenaManager {
         /**
          * Checks if an arena is already in the config. If not, adds it
          */
-        System.out.println("ArenaManager.addArena(): ADDED ARENA " + arenaName + " to arenas and arenaNames");
         arenaData = fw.getArenaDataFile();
         arenaConfig = fw.getArenaConfig();
         if (arenaConfig.contains("arena_names." + arenaName)){
-            msgUtil.messageLanguage(p, "created_already");
-        } else{
-            System.out.println("ArenaManager.addArena(): input arena not in config, adding to config");
-            System.out.println("ArenaManager.addArena(): beofre initializing new arena, here is config:");
-            for (String name : arenaConfig.getStringList("arena_names")){
-                System.out.println("***" + name + "***");
-            }
-            System.out.println("-------------");
-
             /*
-            Identified arena initialization as the point at which our config is overwriting old arenas for new ones
+            If this arena already exists, don't make it.
+             */
+            msgUtil.messageLanguage(p, "created_already");
+        }
+        else{
+            /*
+            Otherwise, make it
              */
             Arena newArena = new Arena(fw, arenaName);
 
-            System.out.println("-------------");
-            System.out.println("ArenaManager.addArena(): after initializing new arena, here is config:");
-            for (String name : arenaConfig.getStringList("arena_names")){
-                System.out.println("***" + name + "***");
-            }
-//            System.out.println("-------------");
             arenas.add(newArena);
-//            System.out.println("ArenaManager.addArena(): added new arena to ArenaManager.arenas, List<Arena> = " + arenas);
-//            System.out.println("ArenaManager.addArena(): after adding new arena, here is config");
-//            for (String name : arenaConfig.getStringList("arena_names")){
-//                System.out.println("***" + name + "***");
-////            }
-//            System.out.println("-------------");
-            //If arenaName hasn't been added yet, add it to list
-
-//            System.out.println("ArenaManager.addArena(): got arenaConfig list of arenas: = " + arenaNames);
             arenaNames.add(arenaName);
-//            System.out.println("ArenaManager.addArena(): added new arena to arenaNames: " + arenaNames);
-//            fw.setArenaConfig(arenaConfig, arenaData);
-            //overwrite the config arena name list
-//            arenaConfig.set("arena_names", arenaNames);
 
             fw.saveArenaConfig(arenaConfig, arenaData);
 
-//            System.out.println("ArenaManager.addArena(): looping through all the arena names currently in config");
-//            for (String name : arenaConfig.getStringList("arena_names")){
-//                System.out.println("***" + name + "***");
-//            }
-//            System.out.println("-------------");
+        }
 
-            //create the new arena and add it to Arena List
+    }
+    public void removeArena(Player p, Arena arena){
+        String arenaName = arena.getArenaName();
+        arenaData = fw.getArenaDataFile();
+        arenaConfig = fw.getArenaConfig();
+        System.out.println("Checking for " + arenaConfig.getConfigurationSection("arena_names").getKeys(false));
+        if(!arenaConfig.getConfigurationSection("arena_names").getKeys(false).contains(arenaName)){
+            /*
+            If this arena isn't in the arena list, there is nothing to remove
+             */
+            msgUtil.messageLanguageArena(p, "correct_arena_not_exist", arenaName);
+        }
+        else{
+            /*
+            If this arena isn't being used, then delete it
+             */
+            String cur_state = arenaConfig.getString("arena_names." + arenaName +".game-state");
+            if (!cur_state.equalsIgnoreCase(GameState.DORMANT.getDisplay())){
+                msgUtil.messageLanguageArena(p, "&cYou must wait until &7%arena%&c isn't in use!", arenaName);
+            }
+            else{
+                //Handle removing from the config itself
+                arenaConfig.getConfigurationSection("arena_names").set(arenaName, null);
+                fw.saveArenaConfig(arenaConfig, arenaData);
+
+                //Remove from the ArenaManager
+                arenas.remove(arena);
+                arenaNames.remove(arenaName);
+
+                //Send message notification
+                msgUtil.messageLanguageArena(p, "arena_delete", arenaName);
+
+            }
         }
 
     }

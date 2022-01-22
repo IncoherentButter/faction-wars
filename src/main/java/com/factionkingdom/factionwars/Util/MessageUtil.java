@@ -44,14 +44,17 @@ public class MessageUtil {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("&e&lFactionWars Arenas\n");
         stringBuilder.append("&7----------------------\n");
-        System.out.println("MessageUtil.messageArenaList(): list of arenas in config");
+
         Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
+
         if (!arenaNamesInConfig.isEmpty()){
             for (String name : arenaNamesInConfig){
                 stringBuilder.append(name).append("\n");
                 System.out.println("^^^" + name + "^^^");
             }
         }
+        stringBuilder.delete(stringBuilder.length() -1, stringBuilder.length());
+
         message(p, languageConfig.getString("arena_list") + stringBuilder);
     }
 
