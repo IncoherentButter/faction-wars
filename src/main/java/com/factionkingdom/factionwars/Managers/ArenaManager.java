@@ -70,11 +70,17 @@ public class ArenaManager {
     }
 
     public void loadConfig(){
-        Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
-        if (!arenaNamesInConfig.isEmpty()){
+
+        if (arenaConfig.isConfigurationSection("arena_names")){
+            Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
+
             for (String arenaName: arenaNamesInConfig){
+                Set<String> arenaInfo = arenaConfig.getConfigurationSection("arena_names." + arenaName).getKeys(false);
+                for (String name : arenaInfo){
+                    System.out.println("###" + name + "###");
+                }
                 arenaNames.add(arenaName);
-                Arena arena = new Arena(fw, arenaName);
+                Arena arena = new Arena(fw, arenaName, false);
                 arenas.add(arena);
             }
         }
@@ -160,7 +166,7 @@ public class ArenaManager {
             /*
             Otherwise, make it
              */
-            Arena newArena = new Arena(fw, arenaName);
+            Arena newArena = new Arena(fw, arenaName, true);
 
             arenas.add(newArena);
             arenaNames.add(arenaName);

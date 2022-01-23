@@ -45,17 +45,23 @@ public class MessageUtil {
         stringBuilder.append("&e&lFactionWars Arenas\n");
         stringBuilder.append("&7----------------------\n");
 
-        Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
-
-        if (!arenaNamesInConfig.isEmpty()){
+        if (arenaConfig.isConfigurationSection("arena_names")){
+            Set<String> arenaNamesInConfig = arenaConfig.getConfigurationSection("arena_names").getKeys(false);
+//            if (!arenaNamesInConfig.isEmpty()){
             for (String name : arenaNamesInConfig){
                 stringBuilder.append(name).append("\n");
                 System.out.println("^^^" + name + "^^^");
             }
-        }
-        stringBuilder.delete(stringBuilder.length() -1, stringBuilder.length());
+            //}
+            stringBuilder.delete(stringBuilder.length() -1, stringBuilder.length());
 
-        message(p, languageConfig.getString("arena_list") + stringBuilder);
+            message(p, languageConfig.getString("arena_list") + stringBuilder);
+        }
+        else{
+            messageLanguage(p, "arena_list_empty");
+        }
+
+
     }
 
     public void messageLanguage(CommandSender p, String key){

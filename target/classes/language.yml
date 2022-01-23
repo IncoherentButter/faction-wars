@@ -3,6 +3,7 @@ prefix: '&8[&3FactionWars&8] '
 
 #messageLanguage
 arena_list: "&3Arenas: &7"
+arena_list_empty: "&cThere are currently no arenas registered!"
 created_already: '&cThere is already an arena with this name!'
 arena_delete_live: "&cThat arena is active! You can't delete it!"
 arena_delete_absent: "&cThat arena doesn't exist!"

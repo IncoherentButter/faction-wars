@@ -150,7 +150,7 @@ public class FactionWarsCreateCommand implements CommandExecutor {
                             messageUtil.messageLanguageArenaInt(p,"correct_arena_spawnnumber" , arena.getArenaName(), numFactions);
                         }
                         else{
-                            arena.addArenaSpawn(spawnNumber, spawn);
+                            arena.setFactionSpawn(spawnNumber, spawn);
                             messageUtil.messageLanguageArenaInt(p,"arena_set_spawn",arena.getArenaName(), spawnNumber);
                         }
                     }
