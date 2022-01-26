@@ -24,6 +24,7 @@ public final class FactionWars extends JavaPlugin {
 
     public static StateFlag ARENA_FLAG;
     private ArenaManager arenaManager;
+    private ConfigManager configManager;
 
     private File languageFile;
     private File arenaDataFile;
@@ -45,9 +46,9 @@ public final class FactionWars extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        //saveDefaultConfig();
+        this.configManager = new ConfigManager();
         ConfigManager.setupConfig(this);
-
 
         arenaDataFile = new File(getDataFolder(), "arenaData.yml");
         languageFile = new File(getDataFolder(), "language.yml");
@@ -128,6 +129,7 @@ public final class FactionWars extends JavaPlugin {
 
     public ArenaManager getArenaManager(){return arenaManager;}
     public MessageUtil getMessageUtil(){return messageUtil;}
+    public ConfigManager getConfigManager(){return configManager;}
     public SoundUtil getSoundUtil(){return soundUtil;}
 
     public File getLanguageFile(){return languageFile;}

@@ -64,6 +64,8 @@ public class Arena {
     private List<Integer> numTeams = new ArrayList<>();
     private Iterator<Integer> iter = numTeams.iterator();
 
+    private boolean brandNew;
+
 
     public Arena(FactionWars fw, String arenaName, boolean brandNew){
         this.fw = fw;
@@ -71,17 +73,17 @@ public class Arena {
         arenaData = fw.getArenaDataFile();
         arenaConfig = fw.getArenaConfig();
 
-
+        this.brandNew = brandNew;
 
         this.arenaName = arenaName;
 
-        setRequiredFactions(2);
+        setRequiredFactions(fw.getConfigManager().getRequiredFactions());
 
 
-        setPlayersPerFaction(2);
+        setPlayersPerFaction(fw.getConfigManager().getPlayersPerFaction());
 
 
-        setCountdownSeconds(180);
+        setCountdownSeconds(fw.getConfigManager().getCountdownSeconds());
 
 
 
@@ -94,12 +96,12 @@ public class Arena {
         /*
         Default settings
          */
-        setState(GameState.DORMANT); //default to DORMANT
+//        setState(GameState.DORMANT); //default to DORMANT
 
 
-        setDefaultKit(true);
-
-        setInTheRing(false);
+//        setDefaultKit(true);
+//
+//        setInTheRing(false);
         setupConfig(brandNew);
 
     }
@@ -125,25 +127,32 @@ public class Arena {
             section.createSection("spectator-spawn.yaw");
             section.createSection("spawns");
 
-            section.set("countdown-seconds", this.countdownSeconds);
-            section.set("game-state", this.state.getDisplay());
-            section.set("required-factions", this.requiredFactions);
-            section.set("players-per-faction", this.playersPerFaction);
-            section.set("default-kit", this.defaultKit);
-            section.set("in-the-ring", this.inTheRing);
+            section.set("countdown-seconds", fw.getConfigManager().getCountdownSeconds());
+            section.set("game-state", "Dormant");
+            section.set("required-factions", fw.getConfigManager().getRequiredFactions());
+            section.set("players-per-faction", fw.getConfigManager().getPlayersPerFaction());
+            section.set("default-kit", fw.getConfigManager().getDefaultKit());
+            section.set("in-the-ring", fw.getConfigManager().getInTheRing());
             section.set("spectator-spawn.world", "unset");
             section.set("spectator-spawn.x", "unset");
             section.set("spectator-spawn.y", "unset");
             section.set("spectator-spawn.z", "unset");
             section.set("spectator-spawn.pitch", "unset");
             section.set("spectator-spawn.yaw", "unset");
-            for (int i = 0; i < requiredFactions; i ++){
-                section.set("spawns." + String.valueOf(i + 1) + ".world", Bukkit.getWorld("world"));
-                section.set("spawns." + String.valueOf(i + 1) + ".x", "unset");
-                section.set("spawns." + String.valueOf(i + 1) + ".y", "unset");
-                section.set("spawns." + String.valueOf(i + 1) + ".z", "unset");
-                section.set("spawns." + String.valueOf(i + 1) + ".pitch", "unset");
-                section.set("spawns." + String.valueOf(i + 1) + ".yaw", "unset");
+            for (int i = 1; i < requiredFactions + 1; i ++){
+                section.createSection("spawns." + i + ".world");
+                section.createSection("spawns." + i + ".x");
+                section.createSection("spawns." + i + ".y");
+                section.createSection("spawns." + i + ".z");
+                section.createSection("spawns." + i + ".pitch");
+                section.createSection("spawns." + i + ".yaw");
+
+                section.set("spawns." + i + ".world", "world");
+                section.set("spawns." + i + ".x", "unset");
+                section.set("spawns." + i + ".y", "unset");
+                section.set("spawns." + i + ".z", "unset");
+                section.set("spawns." + i + ".pitch", "unset");
+                section.set("spawns." + i + ".yaw", "unset");
             }
 
             System.out.println("Arena.setupConfig(): set up config for arena " + arenaName);
@@ -185,24 +194,30 @@ public class Arena {
                 specSpawnSection.set("yaw", ss.getYaw());
             } else{
                 ConfigurationSection specSpawnSection = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spectator-spawn");
+                section.createSection("spectator-spawn");
+                section.set("spectator-spawn.world", "world");
+                section.set("spectator-spawn.x", "unset");
+                section.set("spectator-spawn.y", "unset");
+                section.set("spectator-spawn.z", "unset");
+                section.set("spectator-spawn.pitch", "unset");
+                section.set("spectator-spawn.yaw", "unset");
+//                specSpawnSection.createSection("world");
+//                specSpawnSection.set(null, "world");
 
-                specSpawnSection.createSection("world");
-                specSpawnSection.set(null, "world");
-
-                specSpawnSection.createSection("x");
-                specSpawnSection.set(null, "unset");
-
-                specSpawnSection.createSection("y");
-                specSpawnSection.set(null, "unset");
-
-                specSpawnSection.createSection("z");
-                specSpawnSection.set(null, "unset");
-
-                specSpawnSection.createSection("pitch");
-                specSpawnSection.set(null, "unset");
-
-                specSpawnSection.createSection("yaw");
-                specSpawnSection.set(null, "unset");
+//                specSpawnSection.createSection("x");
+//                specSpawnSection.set(null, "unset");
+//
+//                specSpawnSection.createSection("y");
+//                specSpawnSection.set(null, "unset");
+//
+//                specSpawnSection.createSection("z");
+//                specSpawnSection.set(null, "unset");
+//
+//                specSpawnSection.createSection("pitch");
+//                specSpawnSection.set(null, "unset");
+//
+//                specSpawnSection.createSection("yaw");
+//                specSpawnSection.set(null, "unset");
             }
 
 
@@ -279,7 +294,9 @@ public class Arena {
         }
 
         fw.saveArenaConfig(arenaConfig, arenaData);
+        this.brandNew = false;
     }
+
     public void createIterator(){
         for (int i = 1; i < requiredFactions + 1; i ++) numTeams.add(i);
     }
@@ -299,7 +316,7 @@ public class Arena {
     }
     public void reset(boolean kickPlayers){
         if (kickPlayers){
-            Location spectator_spawn = ConfigManager.getSpectatorSpawn(arenaName);
+            Location spectator_spawn = spectatorSpawn;
             for (UUID uuid : fighters){
                 Bukkit.getPlayer(uuid).teleport(spectator_spawn);
             }
@@ -421,8 +438,22 @@ public class Arena {
         this.kit_items = kit_items;
         this.kit_armor = kit_armor;
     }
+    public void setRequiredFactions(int num){
+        requiredFactions = num;
+
+        ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
+        section.set("required-factions", requiredFactions);
+        fw.saveArenaConfig(arenaConfig, arenaData);
+//        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
+//        section.set("required-factions", num);
+//        fw.saveArenaConfig(arenaConfig, arenaData);
+
+    }
     public void setPlayersPerFaction(int playersPerFaction){
         this.playersPerFaction = playersPerFaction;
+        ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
+        section.set("players-per-faction", playersPerFaction);
+        fw.saveArenaConfig(arenaConfig, arenaData);
 //        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
 //        section.set("players-per-faction", playersPerFaction);
 //        fw.saveArenaConfig(arenaConfig, arenaData);
@@ -443,22 +474,25 @@ public class Arena {
             factionSpawns.put(factionId, factionSpawn);
         }
     }
-    public void setRequiredFactions(int num){
-        requiredFactions = num;
-//        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
-//        section.set("required-factions", num);
-//        fw.saveArenaConfig(arenaConfig, arenaData);
-
-    }
     public void setDefaultKit(boolean isKit){
         this.defaultKit = isKit;
-//        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
-//        section.set("default-kit", isKit);
-//        fw.saveArenaConfig(arenaConfig, arenaData);
+
+        ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
+        section.set("default-kit", isKit);
+        fw.saveArenaConfig(arenaConfig, arenaData);
+//        if (!brandNew){
+//            ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
+//            section.set("default-kit", isKit);
+//            fw.saveArenaConfig(arenaConfig, arenaData);
+//        }
 
     }
     public void setInTheRing(boolean inTheRing){
         this.inTheRing = inTheRing;
+
+        ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
+        section.set("in-the-ring", inTheRing);
+        fw.saveArenaConfig(arenaConfig, arenaData);
 //        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
 //        section.set("in-the-ring", inTheRing);
 //        fw.saveArenaConfig(arenaConfig, arenaData);
