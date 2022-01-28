@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ArenaMenu extends Menu{
-    public HashMap<Integer, Material> terracotta_map;
 
 
     public ArenaMenu(FactionWars fw, String title, Player p){
@@ -161,24 +160,7 @@ public class ArenaMenu extends Menu{
 
     }
 
-    public void setTerracotta_map(){
-        terracotta_map.put(0, Material.BLACK_GLAZED_TERRACOTTA);
-        terracotta_map.put(1, Material.BROWN_GLAZED_TERRACOTTA);
-        terracotta_map.put(2, Material.PURPLE_GLAZED_TERRACOTTA);
-        terracotta_map.put(3, Material.GRAY_GLAZED_TERRACOTTA);
-        terracotta_map.put(4, Material.YELLOW_GLAZED_TERRACOTTA);
-        terracotta_map.put(5, Material.LIGHT_GRAY_GLAZED_TERRACOTTA);
-        terracotta_map.put(6, Material.BLUE_GLAZED_TERRACOTTA);
-        terracotta_map.put(7, Material.CYAN_GLAZED_TERRACOTTA);
-        terracotta_map.put(8, Material.RED_GLAZED_TERRACOTTA);
-        terracotta_map.put(9, Material.WHITE_GLAZED_TERRACOTTA);
-        terracotta_map.put(10, Material.ORANGE_GLAZED_TERRACOTTA);
-        terracotta_map.put(11, Material.LIME_GLAZED_TERRACOTTA);
-        terracotta_map.put(12, Material.GREEN_GLAZED_TERRACOTTA);
-        terracotta_map.put(13, Material.MAGENTA_GLAZED_TERRACOTTA);
-        terracotta_map.put(14, Material.LIGHT_BLUE_GLAZED_TERRACOTTA);
-        terracotta_map.put(15, Material.PINK_GLAZED_TERRACOTTA);
-    }
+
     public void toggleKit(Arena arena, boolean isKit){
         arena.setDefaultKit(!isKit);
     }

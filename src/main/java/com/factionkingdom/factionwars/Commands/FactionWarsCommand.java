@@ -4,6 +4,8 @@ import com.factionkingdom.factionwars.FactionWars;
 import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.Instances.Arena;
 import com.factionkingdom.factionwars.Managers.ArenaManager;
+import com.factionkingdom.factionwars.Menus.ArenaListMenu;
+import com.factionkingdom.factionwars.Menus.Menu;
 import com.factionkingdom.factionwars.Util.MessageUtil;
 import com.factionkingdom.factionwars.Util.SoundUtil;
 import org.bukkit.command.Command;
@@ -52,6 +54,8 @@ public class FactionWarsCommand implements CommandExecutor {
                 messageUtil.fwHelp(p);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("list")){
                 messageUtil.messageArenaList(p, fw);
+                Menu arenaListMenu = new ArenaListMenu(fw, "Arenas", p, getNumRows(arenaManager.getArenas().size()));
+                arenaListMenu.open(p);
 
 //                StringBuilder stringBuilder = new StringBuilder();
 //                System.out.println("FW.list(): config list of names in FWCommand:");
@@ -145,5 +149,25 @@ public class FactionWarsCommand implements CommandExecutor {
             messageUtil.messageLanguageArena(p, "arena_not_recruiting", arenaName);
         }
         return false;
+    }
+    public int getNumRows(int numArenas){
+        /*
+        Calculate the number of rows for our GUI based on the number of arenas we want to display.
+         */
+        //Parity variable is present because our GUI display alternates between showing 5 arenas on
+        // a row and showing 4 on a row
+        int rowCounter = 0;
+        int parity = 1;
+        while (numArenas > 0){
+            rowCounter ++;
+            if (parity == 1){
+                numArenas = numArenas - 5;
+                parity = 0;
+            } else{
+                numArenas = numArenas - 4;
+                parity = 1;
+            }
+        }
+        return Integer.max(1, rowCounter);
     }
 }
