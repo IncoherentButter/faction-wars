@@ -8,6 +8,8 @@ created_already: '&cThere is already an arena with this name!'
 arena_delete_live: "&cThat arena is active! You can't delete it!"
 arena_delete_absent: "&cThat arena doesn't exist!"
 factionless: "&cYou must be in a faction to join a Faction War!"
+arena_clear_inactive: "&cYou deleted all inactive arenas! Active arenas must finish before they can be deleted."
+no_inactive_arenas: "&cThere are no inactive arenas to delete! Active arenas must finish before they can be deleted."
 #Correct something related to arenas
 correct_arena_creation: "&cInput error! Try /fwc create arena <arena name>"
 correct_arena_name_length: "&cArena names can only be one word long!"

@@ -85,6 +85,7 @@ public class Arena {
 
         setCountdownSeconds(fw.getConfigManager().getCountdownSeconds());
 
+        setState(GameState.DORMANT);
 
 
 
@@ -165,7 +166,7 @@ public class Arena {
             int ppf = section.getInt("players-per-faction");
             boolean dk = Boolean.parseBoolean(section.getString("default-kit"));
             boolean itr = Boolean.parseBoolean(section.getString("in-the-ring"));
-            if (section.get("spectator-spawn.x") instanceof Double){
+            if (section.get("spectator-spawn") != null && section.get("spectator-spawn.x") instanceof Double){
                 Location ss = new Location(Bukkit.getWorld(String.valueOf(section.getString("spectator-spawn.world"))),
                         (Double.parseDouble(section.getString("spectator-spawn.x"))),
                         (Double.parseDouble(section.getString("spectator-spawn.y"))),
@@ -192,8 +193,19 @@ public class Arena {
                 specSpawnSection.createSection("yaw");
                 specSpawnSection.set("yaw", ss.getYaw());
                 this.spectatorSpawn = ss;
-            } else{
-                ConfigurationSection specSpawnSection = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spectator-spawn");
+            }
+            else{
+                System.out.println("LOOKING FOR SPECSPAWN FOR ARENA " + arenaName);
+                ConfigurationSection specSpawnSection;
+
+                if (arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spectator-spawn") == null){
+                    System.out.println("Spec spawn section was NULL");
+                    specSpawnSection = arenaConfig.createSection("spectator-spawn");
+                } else{
+                    System.out.println("NOT NULL");
+                    specSpawnSection = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spectator-spawn");
+
+                }
                 specSpawnSection.set("world", "world");
                 specSpawnSection.set("x", "unset");
                 specSpawnSection.set("y", "unset");
@@ -424,9 +436,10 @@ public class Arena {
     }
     public void setState(GameState state){
         this.state = state;
-//        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
-//        section.set("game-state", state.getDisplay());
-//        fw.saveArenaConfig(arenaConfig, arenaData);
+
+        ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
+        section.set("game-state", state.getDisplay());
+        fw.saveArenaConfig(arenaConfig, arenaData);
 
     }
     public void setState(String stateDisplay){

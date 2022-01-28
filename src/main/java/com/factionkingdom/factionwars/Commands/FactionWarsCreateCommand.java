@@ -16,6 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FactionWarsCreateCommand implements CommandExecutor {
 
@@ -107,6 +109,26 @@ public class FactionWarsCreateCommand implements CommandExecutor {
                     Location specSpawn = p.getLocation();
                     arena.setSpectatorSpawn(specSpawn);
                     messageUtil.messageLanguageArena(p, "arena_set_spec_spawn", arenaName);
+                }
+            } else if (args.length == 1 && (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("deleteall"))){
+                /*
+                Clear all arenas from config that are not active
+                 */
+                //1)loop through list of arenas
+                //2)if arena is Dormant, remove
+
+                //creating a copy of the arena list to loop through. Can't loop through the actual list because we
+                //may be deleting elements while looping
+                List<Arena> tempList = new ArrayList<>(fw.getArenaManager().getArenas());
+                if (tempList.isEmpty()){
+                    messageUtil.messageLanguage(p, "no_inactive_arenas");
+                } else {
+                    for (Arena arena : tempList) {
+                        System.out.println("Current arena: " + arena.getArenaName());
+                        arenaManager.removeArena(p, arena);
+                    }
+                    System.out.println("List of arenas after /fwc clear: " + arenaManager.getArenas());
+                    messageUtil.messageLanguage(p, "arena_clear_inactive");
                 }
             } else if (args.length == 3 && args[0].equalsIgnoreCase("requiredFactions")) {
                 /*
