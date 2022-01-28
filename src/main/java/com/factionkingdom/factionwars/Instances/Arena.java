@@ -77,11 +77,11 @@ public class Arena {
 
         this.arenaName = arenaName;
 
+        setupConfig(brandNew);
+
         setRequiredFactions(fw.getConfigManager().getRequiredFactions());
 
-
         setPlayersPerFaction(fw.getConfigManager().getPlayersPerFaction());
-
 
         setCountdownSeconds(fw.getConfigManager().getCountdownSeconds());
 
@@ -102,7 +102,6 @@ public class Arena {
 //        setDefaultKit(true);
 //
 //        setInTheRing(false);
-        setupConfig(brandNew);
 
     }
 
@@ -140,19 +139,19 @@ public class Arena {
             section.set("spectator-spawn.pitch", "unset");
             section.set("spectator-spawn.yaw", "unset");
             for (int i = 1; i < requiredFactions + 1; i ++){
-                section.createSection("spawns." + i + ".world");
-                section.createSection("spawns." + i + ".x");
-                section.createSection("spawns." + i + ".y");
-                section.createSection("spawns." + i + ".z");
-                section.createSection("spawns." + i + ".pitch");
-                section.createSection("spawns." + i + ".yaw");
+                section.createSection("spawns." + String.valueOf(i) + ".world");
+                section.createSection("spawns." + String.valueOf(i) + ".x");
+                section.createSection("spawns." + String.valueOf(i) + ".y");
+                section.createSection("spawns." + String.valueOf(i) + ".z");
+                section.createSection("spawns." + String.valueOf(i) + ".pitch");
+                section.createSection("spawns." + String.valueOf(i) + ".yaw");
 
-                section.set("spawns." + i + ".world", "world");
-                section.set("spawns." + i + ".x", "unset");
-                section.set("spawns." + i + ".y", "unset");
-                section.set("spawns." + i + ".z", "unset");
-                section.set("spawns." + i + ".pitch", "unset");
-                section.set("spawns." + i + ".yaw", "unset");
+                section.set("spawns." + String.valueOf(i) + ".world", "world");
+                section.set("spawns." + String.valueOf(i) + ".x", "unset");
+                section.set("spawns." + String.valueOf(i) + ".y", "unset");
+                section.set("spawns." + String.valueOf(i) + ".z", "unset");
+                section.set("spawns." + String.valueOf(i) + ".pitch", "unset");
+                section.set("spawns." + String.valueOf(i) + ".yaw", "unset");
             }
 
             System.out.println("Arena.setupConfig(): set up config for arena " + arenaName);
@@ -192,32 +191,57 @@ public class Arena {
 
                 specSpawnSection.createSection("yaw");
                 specSpawnSection.set("yaw", ss.getYaw());
+                this.spectatorSpawn = ss;
             } else{
                 ConfigurationSection specSpawnSection = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spectator-spawn");
-                section.createSection("spectator-spawn");
-                section.set("spectator-spawn.world", "world");
-                section.set("spectator-spawn.x", "unset");
-                section.set("spectator-spawn.y", "unset");
-                section.set("spectator-spawn.z", "unset");
-                section.set("spectator-spawn.pitch", "unset");
-                section.set("spectator-spawn.yaw", "unset");
-//                specSpawnSection.createSection("world");
-//                specSpawnSection.set(null, "world");
+                specSpawnSection.set("world", "world");
+                specSpawnSection.set("x", "unset");
+                specSpawnSection.set("y", "unset");
+                specSpawnSection.set("z", "unset");
+                specSpawnSection.set("pitch", "unset");
+                specSpawnSection.set("yaw", "unset");
+            }
+            for (int i = 1; i < requiredFactions + 1; i ++){
+                if (section.get("spawns." + String.valueOf(i) + ".x") instanceof Double){
+                    /*
+                    This means that this number spawn has been set
+                     */
+                    Location fs = new Location(Bukkit.getWorld(String.valueOf(section.getString("spawns." + String.valueOf(i) + ".world"))),
+                            (Double.parseDouble(section.getString("spawns." + String.valueOf(i) + ".x"))),
+                            (Double.parseDouble(section.getString("spawns." + String.valueOf(i) + ".y"))),
+                            (Double.parseDouble(section.getString("spawns." + String.valueOf(i) + ".z"))),
+                            (Float.parseFloat(section.getString("spawns." + String.valueOf(i) + ".pitch"))),
+                            (Float.parseFloat(section.getString("spawns." + String.valueOf(i) + ".yaw"))));
+                    ConfigurationSection spawnSection = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spawns." + String.valueOf(i));
+                    spawnSection.createSection("world");
+                    spawnSection.set("world", fs.getWorld());
 
-//                specSpawnSection.createSection("x");
-//                specSpawnSection.set(null, "unset");
-//
-//                specSpawnSection.createSection("y");
-//                specSpawnSection.set(null, "unset");
-//
-//                specSpawnSection.createSection("z");
-//                specSpawnSection.set(null, "unset");
-//
-//                specSpawnSection.createSection("pitch");
-//                specSpawnSection.set(null, "unset");
-//
-//                specSpawnSection.createSection("yaw");
-//                specSpawnSection.set(null, "unset");
+                    spawnSection.createSection("x");
+                    spawnSection.set("x", fs.getX());
+
+                    spawnSection.createSection("y");
+                    spawnSection.set("y", fs.getY());
+
+                    spawnSection.createSection("z");
+                    spawnSection.set("z", fs.getZ());
+
+                    spawnSection.createSection("pitch");
+                    spawnSection.set("pitch", fs.getPitch());
+
+                    spawnSection.createSection("yaw");
+                    spawnSection.set("yaw", fs.getYaw());
+
+                    factionSpawns.put(i, fs);
+                } else{
+                    ConfigurationSection spawnSection = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spawns." + String.valueOf(i));
+                    spawnSection.set("world", "world");
+                    spawnSection.set("x", "unset");
+                    spawnSection.set("y", "unset");
+                    spawnSection.set("z", "unset");
+                    spawnSection.set("pitch", "unset");
+                    spawnSection.set("yaw", "unset");
+                }
+
             }
 
 
@@ -422,8 +446,8 @@ public class Arena {
     }
     public void setSpectatorSpawn(Location loc){
         this.spectatorSpawn = loc;
-        ConfigurationSection section = arenaConfig.createSection("arena_names." + arenaName);
-        section.createSection("spectator-spawn");
+
+        ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
         section.set("spectator-spawn", loc);
         fw.saveArenaConfig(arenaConfig, arenaData);
     }
@@ -465,9 +489,19 @@ public class Arena {
 
         if (factionSpawns.size() < requiredFactions){
             //Set spawn in config
-            ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName);
-            section.createSection("spawns");
-            section.set(String.valueOf(factionId), factionSpawn);
+            ConfigurationSection section = arenaConfig.getConfigurationSection("arena_names." + arenaName + ".spawns");
+            for (int i = 1; i < requiredFactions + 1; i++){
+                if (i == factionId){
+                    section.createSection(String.valueOf(factionId));
+                    section.set(String.valueOf(factionId), factionSpawn);
+                }
+                else{
+                    section.createSection(String.valueOf(i));
+                    section.set(String.valueOf(i), factionSpawns.get(i));
+                }
+            }
+//            section.createSection("spawns");
+//            section.set(String.valueOf(factionId), factionSpawn);
             fw.saveArenaConfig(arenaConfig, arenaData);
 
             //Record spawn in Arena.class

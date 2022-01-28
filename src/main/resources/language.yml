@@ -31,12 +31,13 @@ arena_default_kits_true: "&7%arena%&c will now use default kits!"
 arena_default_kits_false: "&7%arena%&c will now let fighters bring their own gear!"
 arena_inthering_true: "&cFighters will now lose if they exit &7%arena%&c!"
 arena_inthering_false: "&cFighters can now exit &7%arena%&c without losing!"
+arena_set_spec_spawn: "&cYou set Spectator Spawn for &7%arena%&c!"
 
 #messageLanguageArenaInt
 arena_required_factions: "&7%arena%&c now requires &5%num%&c factions to begin!"
 arena_players_per: "&7%arena%&c now requires &5%num%&c players per faction to begin!"
 correct_arena_spawnnumber: "&7%arena%&c supports &5%num%&c factions. Input a number between &51&c and &5%num%&c!"
-arena_set_spawn: "You set Spawn &5%num%&c for &7%arena%&c!"
+arena_set_spawn: "&cYou set Spawn &5%num%&c for &7%arena%&c!"
 
 #broadcastCountdown
 countdown_begin: "&3&lFactionWars &7countdown has begun!"

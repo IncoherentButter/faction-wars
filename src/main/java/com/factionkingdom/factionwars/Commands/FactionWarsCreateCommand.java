@@ -100,6 +100,14 @@ public class FactionWarsCreateCommand implements CommandExecutor {
                     settingsMenu.open(p);
                 }
                 //arenaManager.getArena(args[1]);
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("setspecspawn")){
+                String arenaName = args[1];
+                Arena arena = safelyGetArena(arenaName, p);
+                if (arena != null) {
+                    Location specSpawn = p.getLocation();
+                    arena.setSpectatorSpawn(specSpawn);
+                    messageUtil.messageLanguageArena(p, "arena_set_spec_spawn", arenaName);
+                }
             } else if (args.length == 3 && args[0].equalsIgnoreCase("requiredFactions")) {
                 /*
                 Sets the number of required factions for this arena
