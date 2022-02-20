@@ -16,4 +16,5 @@ com\factionkingdom\factionwars\FactionWars.class
 com\factionkingdom\factionwars\Instances\Game.class
 com\factionkingdom\factionwars\Menus\MenuButton.class
 com\factionkingdom\factionwars\Menus\MenuListener.class
+com\factionkingdom\factionwars\Menus\ArenaListMenu.class
 com\factionkingdom\factionwars\Commands\FactionWarsTournamentCreateCommand.class

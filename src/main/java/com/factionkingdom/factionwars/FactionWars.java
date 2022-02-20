@@ -92,6 +92,62 @@ public final class FactionWars extends JavaPlugin {
         arenaManager = new ArenaManager(this);
         soundUtil = new SoundUtil(this);
 
+//        /**
+//         * FactionsBridge stuff
+//         */
+//        FactionsBridge bridge = new FactionsBridge();
+//        bridge.connect(this);
+//        try {
+//            Objects.requireNonNull(getCommand("factionsbridge")).setExecutor(this);
+//        } catch (Exception e) {
+//            exception(e, "Callum is an idiot.");
+//        }
+//        if (!FactionsBridge.get().connected()) {
+//            log("FactionsBridge didn't connect.");
+//            return;
+//        }
+//
+//        // API test.
+//        if (Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null) {
+//            warn("FastAsyncWorldEdit changes the load-order of the Server. Delaying the API test by 5 seconds.");
+//            Bukkit.getScheduler().runTaskLater(this, () -> {
+//                int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
+//                warn(loaded + " factions have been loaded.");
+//            }, 100L);
+//        } else {
+//            int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
+//            warn(loaded + " factions have been loaded.");
+//        }
+//
+//        // Check for updates.
+//        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+//            log("Checking for Updates.");
+//            try {
+//                Updater updater = new Updater(getDescription().getVersion());
+//                switch (updater.getStatus()) {
+//                    case BETA:
+//                        log("You're using a Beta version of FactionsBridge.");
+//                        break;
+//                    case UP_TO_DATE:
+//                        log("You're all up to date. No issues here!");
+//                        break;
+//                    case OUT_OF_DATE_MAJOR:
+//                        error("The version of FactionsBridge you're currently using is majorly out of date.");
+//                        break;
+//                    case OUT_OF_DATE_MINOR:
+//                        warn("The version of FactionsBridge you're currently using is out of date.");
+//                        break;
+//                    case OUT_OF_DATE_MINI:
+//                        warn("The version of FactionsBridge you're currently using is slightly out of date.");
+//                        break;
+//                    default:
+//                        throw new IllegalStateException("Unexpected value: " + updater.getStatus());
+//                }
+//            } catch (Exception e) {
+//                warn("Couldn't check for updates.");
+//            }
+//        });
+
 
 
 
@@ -173,6 +229,34 @@ public final class FactionWars extends JavaPlugin {
             e.printStackTrace();
         }
     }
+
+//    /**
+//     * Command handler to redirect commands to their command-handling {@link ACommand} implementation.
+//     *
+//     * @param sender who sent the command.
+//     * @param command which was called.
+//     * @param label of the command.
+//     * @param args to control the functionality of the command.
+//     * @return {@code true} upon success.
+//     */
+//    @Override
+//    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+//                             @NotNull String label, @NotNull String[] args) {
+//        if (args.length != 0) {
+//            for (ACommand aCommand : commands) {
+//                if (aCommand.isCommand(args[0])) {
+//                    String[] arguments = new String[args.length - 1];
+//                    System.arraycopy(args, 1, arguments, 0, args.length - 1); // Remove one entry from the beginning.
+//                    aCommand.execute(sender, arguments);
+//                    return true;
+//                }
+//            }
+//        }
+//        Arrays.stream(commands)
+//                .map(aCommand -> translate("&b" + aCommand.getName() + " &7- &f" + aCommand.getDescription()))
+//                .forEach(sender::sendMessage);
+//        return false;
+//    }
 
     @Override
     public void onDisable() {

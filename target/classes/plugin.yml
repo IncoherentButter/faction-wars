@@ -4,17 +4,23 @@ main: com.factionkingdom.factionwars.FactionWars
 api-version: 1.18
 authors: [ IncoherentButter ]
 description: Faction Combat Plugin
-depend: [WorldEdit, WorldGuard, Factions, Vault]
+depend: [WorldEdit, WorldGuard, Vault, Factions]
+#depend: [WorldEdit, WorldGuard, Vault, FactionsBridge]
+#softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms, LegacyFactions, MedievalFactions, UltimateFactions, Towny]
+
 commands:
   factionwars:
     description: Base command
-    aliases: [factionwars, fw]
+    aliases: [fw]
   factionwarscreate:
     description: Creation command
-    aliases: [factionwarscreate, fwc]
+    aliases: [fwc]
   factionwarstournament:
     description: Base tournament command
-    aliases: [factionwarstournament, factionwarstourney, fwt]
+    aliases: [factionwarstourney, fwt]
   factionwarstournamentcreate:
     description: Create a tournament
-    aliases: [factionwarstournamentcreate, factionwarstourneycreate, fwtc]
+    aliases: [factionwarstourneycreate, fwtc]
+  factionsbridge:
+    aliases: [fbridge, factionbridge, facbridge, bridgefactions ]
+    description: "Main and only command."

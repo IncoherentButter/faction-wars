@@ -3,7 +3,7 @@ package com.factionkingdom.factionwars.Listeners;
 import com.factionkingdom.factionwars.FactionWars;
 import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.Instances.Arena;
-import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.Faction;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

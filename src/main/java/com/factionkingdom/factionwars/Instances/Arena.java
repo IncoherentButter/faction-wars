@@ -4,8 +4,11 @@ import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.FactionWars;
 import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.Managers.ConfigManager;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MPlayer;
+
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.struct.Role;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,6 +75,8 @@ public class Arena {
 
         arenaData = fw.getArenaDataFile();
         arenaConfig = fw.getArenaConfig();
+
+//        FactionsAPI api = FactionsBridge.getFactionsAPI();
 
         this.brandNew = brandNew;
 
@@ -417,8 +422,12 @@ public class Arena {
         if (!fighters.contains(p_id)){
             return null;
         }
+        FPlayer f_p = FPlayers.getInstance().getByPlayer(p);
+
+
+
+
         //get the playerdata from Factions API to find player faction
-        MPlayer f_p = MPlayer.get(p_id);
         Faction p_fac = f_p.getFaction();
         return p_fac;
     }
@@ -567,8 +576,13 @@ public class Arena {
     }
     public void addFighter(Player p){
         UUID p_id = p.getUniqueId();
-        MPlayer f_p = MPlayer.get(p_id);
-        Faction p_fac = f_p.getFaction();
+
+        FPlayer f_p = FPlayers.getInstance().getByPlayer(p);
+
+
+
+//        MPlayer f_p = MPlayer.get(p_id);
+        Faction p_fac = (Faction) f_p.getFaction();
         if (p_fac == null){
             /*
             If the player isn't in a faction, they can't join
@@ -603,7 +617,7 @@ public class Arena {
     }
     public void removeFighter(Player p){
         UUID p_id = p.getUniqueId();
-        MPlayer f_p = MPlayer.get(p_id);
+        FPlayer f_p = FPlayers.getInstance().getByPlayer(p);
         Faction p_fac = f_p.getFaction();
         if (roster.get(p_fac).contains(p_id)){
             roster.get(p_fac).remove(p_id);

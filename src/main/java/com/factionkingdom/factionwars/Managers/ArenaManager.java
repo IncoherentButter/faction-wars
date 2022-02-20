@@ -1,11 +1,11 @@
 package com.factionkingdom.factionwars.Managers;
 
+
 import com.factionkingdom.factionwars.FactionWars;
 import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.Instances.Arena;
 import com.factionkingdom.factionwars.Util.MessageUtil;
-import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.factions.Faction;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -56,6 +56,8 @@ public class ArenaManager {
          */
         this.fw = fw;
         FileConfiguration config = fw.getConfig();
+
+//        FactionsAPI api = FactionsBridge.getFactionsAPI();
 
 
         arenaData = fw.getArenaDataFile();

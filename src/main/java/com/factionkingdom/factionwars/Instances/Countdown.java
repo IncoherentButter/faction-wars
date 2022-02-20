@@ -3,9 +3,8 @@ package com.factionkingdom.factionwars.Instances;
 import com.factionkingdom.factionwars.FactionWars;
 import com.factionkingdom.factionwars.GameState;
 import com.factionkingdom.factionwars.Listeners.GameListener;
-import com.factionkingdom.factionwars.Managers.ConfigManager;
 import com.factionkingdom.factionwars.Util.SoundUtil;
-import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.Faction;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 import java.util.UUID;
 
-//import static com.massivecraft.factions.shade.me.lucko.helper.event.filter.EventHandlers.cancel;
 
 public class Countdown extends BukkitRunnable {
     private FactionWars fw;

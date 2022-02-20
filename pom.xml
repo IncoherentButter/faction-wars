@@ -70,6 +70,10 @@
             <id>enginehub-maven</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -79,19 +83,24 @@
             <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.massivecraft</groupId>-->
+<!--            <artifactId>MassiveCraft</artifactId>-->
+<!--            <scope>system</scope>-->
+<!--            <version>2.14.0</version>-->
+<!--            <systemPath>${java.home}/lib/MassiveCore.jar</systemPath>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.massivecraft</groupId>-->
+<!--            <artifactId>Factions</artifactId>-->
+<!--            <scope>system</scope>-->
+<!--            <version>2.14.0</version>-->
+<!--            <systemPath>${java.home}/lib/Factions.jar</systemPath>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>com.massivecraft</groupId>
-            <artifactId>MassiveCraft</artifactId>
-            <scope>system</scope>
-            <version>2.14.0</version>
-            <systemPath>${java.home}/lib/MassiveCore.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.massivecraft</groupId>
-            <artifactId>Factions</artifactId>
-            <scope>system</scope>
-            <version>2.14.0</version>
-            <systemPath>${java.home}/lib/Factions.jar</systemPath>
+            <groupId>com.github.SaberLLC</groupId>
+            <artifactId>Saber-Factions</artifactId>
+            <version>2.4.0-RC</version>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
@@ -105,6 +114,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- FactionsBridgeAPI -->
+<!--        <dependency>-->
+<!--            <groupId>cc.javajobs.factionsbridge</groupId>-->
+<!--            <artifactId>FactionsBridge-API</artifactId>-->
+<!--            <version>${bridge.1.3.5}</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-core</artifactId>
